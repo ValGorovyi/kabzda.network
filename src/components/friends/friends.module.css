@@ -1,0 +1,23 @@
+.friend{
+  display: grid;
+  grid-template-areas:
+  'img name';
+  margin: 20px;
+  grid-template-columns: 10% 82%;
+}
+.friendImg{
+  grid-area: img;
+}
+.friend .friendImg:hover{
+  height: 100px;
+  width: 100px;
+}
+h2{
+  grid-area: name;
+  margin-left: -5px;
+}
+.friend .friendImg{
+  height: 66px;
+  width: 66px;
+  border-radius: 3px;
+}

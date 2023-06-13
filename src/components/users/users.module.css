@@ -1,0 +1,30 @@
+.users {
+  display: grid;
+  grid-template-columns: 1fr 4fr;
+  border: 1px solid #ccc;
+
+}
+.img_btn{
+  display: grid;
+  grid-template-rows: auto;
+}
+.img_btn img{
+  width: 80px;
+  height: 80px;
+  border-radius: 35%;
+  margin-top: 8px;
+  margin-left: 8px;
+}
+.img_btn button{
+  width: 120px;
+  text-align: left;
+}
+
+.info {
+  grid-template-rows: auto;
+  text-align: right;
+  margin-right: 10px;
+}
+.selectedPage{
+  color: rgb(228, 228, 238);
+}

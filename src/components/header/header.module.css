@@ -1,0 +1,15 @@
+.header{
+  grid-area: header;
+  background-color: rgb(236, 141, 141);
+  border-radius: 5px;
+  border: 5px solid rgb(192, 187, 187);
+}
+
+.header img {
+  width: 55px;
+  height: 50px;
+}
+
+.loginBlok a {
+  float: right;
+}

@@ -1,0 +1,12 @@
+.posts{
+  background-color: rgb(96, 230, 69);
+  margin-top: 2px;
+}
+.posts img {
+  width: 58px;
+  height: 58px;
+  border-radius: 20px;
+}
+.postsBlock {
+  padding: 10px;
+}

@@ -1,0 +1,26 @@
+.nav {
+  grid-area: nav;
+  background-color: rgb(122, 171, 235);
+  padding-top: 10px;
+  border-radius: 5px;
+  border: 5px solid rgb(192, 187, 187);
+  margin-top: 5px;
+  font-family: roboto;
+  font-size: 20px;
+
+}
+.item {
+  color: rgb(92, 87, 13);
+  margin-top: 5px;
+}
+.item a{
+  text-decoration: none;
+  color: rgb(53, 51, 51);
+  padding-top: 8px ;
+}
+.item a:hover {
+  padding-left: 12px;
+}
+.item .active {
+  color: brown;
+}

@@ -1,0 +1,7 @@
+.descriptionBlock {
+  padding: 10px;
+}
+.descriptionBlock .profileAva{
+  width: 300px;
+  border-radius: 5%;
+}
