@@ -1,0 +1,9 @@
+.preloader {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 55px;
+}
+.preloader img {
+  width: 300px;
+}

@@ -1,26 +1,25 @@
-import React from "react";
+import React,{useState} from "react";
 import css from './users.module.css';
 import { NavLink } from "react-router-dom";
-import axios from "axios";
+import Paginator from "./paginator";
+import { followUnFollowAPI } from './api/api';
 
 
 function Users(props) {
-  let pagesCound = Math.ceil(props.totalUsersCound / props.pageSize);
-  let pages = [];
 
-  for (let i = 1; i <= pagesCound; i++) {
-    pages.push(i);
-  }
+  const [positionNumber, setPositionNumb] = useState(1)
+
+
+  const paginator =     <Paginator currentPage={props.currentPage}
+  positionNumber={positionNumber}
+  setPositionNumb={setPositionNumb}
+  totalItemCount={props.totalUsersCound}
+  pageSize={props.pageSize}
+  onPageChanged={props.onPageChanged} /> 
+
+
   return (<div>
-    <div>
-      {pages.map((p,i,a) => {
-        return <span className={props.currentPage === p && css.selectedPage}
-          onClick={(e) => { props.onPageChanged(p) }}> {
-            p === props.currentPage+ 30 || p === props.currentPage - 12  ? '..' :
-            p <= props.currentPage + 30 & p >=  props.currentPage- 12 ?
-            p : ''}</span>
-      })}
-    </div>
+    {paginator}
     {
       props.users.map(user => <div key={user.id}>
         <div className={css.users}>
@@ -33,25 +32,21 @@ function Users(props) {
             </div>
             {user.followed ?
               <button onClick={() => {
-                //ЗДЕСЬ ДОЛЖЕН БЫТЬ ДИСПАТЧ ДЛЯ ДИЗЕЙБЛ КНОПКИ. НО У МЕНЯ НЕ РАБОТАЕТ ЗАПРОС. НАДО ПЛАТНАЯ ПОДПИСКА
-                axios.delete(`https://social-network.samuraijs.com/api/1.0/follow/${user.id}`,
-                 {withCredentiale: true,
-                  headers:{}})
-                .then(response => {
-                  if (response.data.resultCode === 0) {
-                    props.unFollow(user.id)
-                  }
-                })
-              }}>Follow</button> :
+                followUnFollowAPI.unFollow(user.id)
+                  .then(response => {
+                    if (response.resultCode === 0) {
+                      props.unFollow(user.id)
+                    }
+                  })
+              }}>unFollow</button> :
               <button onClick={() => {
-                axios.post(`https://social-network.samuraijs.com/api/1.0/follow/${user.id}`, {withCredentiale: true,
-                headers:{}})
-                .then(response => {
-                  if (response.data.resultCode === 0) {
-                    props.follow(user.id)
-                  }
-                })
-              }}>UnFollow</button>}
+                followUnFollowAPI.follow(user.id)
+                  .then(response => {
+                    if (response.resultCode === 0) {
+                      props.follow(user.id)
+                    }
+                  })
+              }}>Follow</button>}
           </div>
           <div className={css.info}>
             <h2 className={css.status}>{'user.status'}</h2>
@@ -59,7 +54,9 @@ function Users(props) {
           </div>
         </div>
       </div>)
-    }</div>
+    }
+    {paginator}
+  </div>
   )
 }
 

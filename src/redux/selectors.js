@@ -17,6 +17,7 @@ export const getPageSizeSelector = (state) => {
   return state.usersPage.pageSize
 }
 export const getTotalUsersCoundSelector = (state) => {
+  console.log(state.usersPage.totalUsersCound);
   return state.usersPage.totalUsersCound
 }
 export const getCurrentPageSelector = (state) => {

@@ -1,38 +1,54 @@
 import React from "react";
 import Profile from "./profile";
-import axios from "axios";
 import {
   useLocation,
   useNavigate,
   useParams
 } from 'react-router-dom'
-import { setUserProfile } from "../../redux/profile-reducer";
-import { getStatus, uppdateStatus } from "../../redux/profile-reducer"; 
+import { setUserProfile, savePhoto,getStatus, getUserProfile, uppdateStatus } from "../../redux/profile-reducer";
 import { connect } from "react-redux";
 
 class ProfileContainer extends React.Component {
 
-  componentDidMount() {
 
+  refreshComponent() {
     let profileId = this.props.router.params.userId;
 
-    if(!profileId) {
+    if (!profileId) {
       profileId = this.props.authorisedUserId
     }
-    //Создаём переменную которая равна значению URL параметра из браузерной строки,параметр (userId) по имени должен совпадать с тем,что вы написали в App.js //(<Route path='/profile_content/:userId*' element={<ProfileContainer  />} />) ,у меня допустим userId.
 
-    axios.get('https://social-network.samuraijs.com/api/1.0/profile/' + profileId).then(response => {
 
-      //Через конкатенацию строк (+) добавляем значение переменной в конец строки запроса
+    this.props.getUserProfile(profileId);
+    this.props.getStatus(profileId)
 
-      this.props.setUserProfile(response.data);
-      this.props.getStatus(profileId)
+    // aboutId(profileId)
+    //   .then(response => {
 
-    });
+
+    //     this.props.setUserProfile(response);
+    //     this.props.getStatus(profileId)
+
+    //   });
+  }
+
+  componentDidMount() {
+    
+    this.refreshComponent()
+  }
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    if(this.props.router.params.userId !== prevProps.router.params.userId) {
+      this.refreshComponent()
+    }
   }
 
   render() {
-    return <Profile {...this.props} profile={this.props.profile} status={this.props.status} uppdateStatus={this.props.uppdateStatus}/>
+    return <Profile {...this.props}
+     profile={this.props.profile}
+     status={this.props.status}
+     uppdateStatus={this.props.uppdateStatus} 
+     isOwner={!this.props.router.params.userId}
+     savePhoto={this.props.savePhoto}/>
   }
 }
 
@@ -61,5 +77,4 @@ function withRouter(Component) {
   return ComponentWithRouterProp;
 }
 
-export default connect(mapStateToProps, { setUserProfile, getStatus, uppdateStatus })(withRouter(ProfileContainer));
-
+export default connect(mapStateToProps, { setUserProfile, getStatus, uppdateStatus, getUserProfile, savePhoto })(withRouter(ProfileContainer));

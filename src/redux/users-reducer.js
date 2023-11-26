@@ -1,13 +1,14 @@
-import {getUsers} from'../components/users/api/api'
+import {getUsers} from'../components/users/api/api';
+import {uppdateObjInArray} from '../common/utils/object-helper'
 
 
-const FOLLOW = 'FOLLOW';
-const UNFOLLOW = 'UNFOLLOW';
-const SET_USERS = "SET_USERS"
-const SET_CURRENT_PAGE = 'SET_CURRENT_PAGE';
-const SET_TOTAL_USERS_COUNT = 'SET_TOTAL_USERS_COUNT';
-const TOGGLE_IS_FERCHING = 'TOGGLE_IS_FERCHING';
-const TOGGLE_IS_FOLLOWING_PROGRESS = 'TOGGLE_IS_FOLLOWING_PROGRESS';
+const FOLLOW = 'network/users/FOLLOW';
+const UNFOLLOW = 'network/users/UNFOLLOW';
+const SET_USERS = "network/users/SET_USERS"
+const SET_CURRENT_PAGE = 'network/users/SET_CURRENT_PAGE';
+const SET_TOTAL_USERS_COUNT = 'network/users/SET_TOTAL_USERS_COUNT';
+const TOGGLE_IS_FERCHING = 'network/users/TOGGLE_IS_FERCHING';
+const TOGGLE_IS_FOLLOWING_PROGRESS = 'network/users/TOGGLE_IS_FOLLOWING_PROGRESS';
 
 
 
@@ -32,23 +33,25 @@ const usersReducer = (state = initialState, action) => {
     case FOLLOW: {
       return {
         ...state,
-        users: state.users.map((user) => {
-          if (user.id === action.userID) {
-            return { ...user, followed: true, }
-          }
-          return user
-        }),
+        users: uppdateObjInArray(state.users, action.userID, 'id', {followed: true})
+        // state.users.map((user) => {
+        //   if (user.id === action.userID) {
+        //     return { ...user, followed: true, }
+        //   }
+        //   return user
+        // }),
       }
     }
     case UNFOLLOW: {
       return {
         ...state,
-        users: state.users.map((user) => {
-          if (user.id === action.userID) {
-            return { ...user, followed: false, }
-          }
-          return user
-        }),
+        users: uppdateObjInArray(state.users, action.userID, 'id', {followed: false})
+        // state.users.map((user) => {
+        //   if (user.id === action.userID) {
+        //     return { ...user, followed: false, }
+        //   }
+        //   return user
+        // }),
       }
     }
     case SET_USERS: {
@@ -68,15 +71,12 @@ const usersReducer = (state = initialState, action) => {
   }
 }
 
-export const getUsersThunkCreator = (currentPage, pageSize) => {
-  return (dispatch) => {
+export const getUsersThunkCreator = (currentPage, pageSize) => async (dispatch) => {
     dispatch(toggleIsFetching(true))
-    getUsers(currentPage, pageSize).then(response => {
+    let response = await getUsers(currentPage, pageSize)
       dispatch(setUsers(response.items));
       dispatch(toggleIsFetching(false))
       dispatch(setUsersTotalCount(response.totalCount))
-    })
-  }
 }
 
 export default usersReducer;

@@ -27,4 +27,13 @@
 }
 .selectedPage{
   color: rgb(228, 228, 238);
+  display: inline-block;
+}
+.paginator {
+  margin-top: 18px;
+  margin-bottom: 18px;
+  text-align: center;
+}
+span {
+  margin-left: 3px;
 }
